@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
-const createToken = (user) => {
-  return jwt.sign(user._id, process.env.JWT_SECRET, { expiresIn: '60d' });
+const createToken = (email) => {
+  return jwt.sign(email, process.env.JWT_SECRET, { expiresIn: '60d' });
 };
 
 exports.registerUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    const token = createToken(user._id);
+    console.log(user);
+    const token = createToken(user.email);
     res.status(201).json({
       status: 'success',
       token,
@@ -29,7 +30,7 @@ exports.logInUser = async (req, res, next) => {
     const { email, password } = req.body;
     const user = User.findOne({ email }).select('+password');
     if (user) {
-      const token = createToken(user._id);
+      const token = createToken(user.email);
       res.status(201).json({
         status: 'success',
         token,
