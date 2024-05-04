@@ -3,7 +3,6 @@ const Cart = require('../models/cartModel');
 exports.getCarts = async (req, res, next) => {
   try {
     const email = req.query.email;
-
     const carts = await Cart.find({ email });
     res.status(200).json({
       status: 'success',

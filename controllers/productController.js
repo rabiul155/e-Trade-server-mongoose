@@ -36,3 +36,18 @@ exports.getSingleProduct = async (req, res, next) => {
     });
   }
 };
+
+exports.deleteProduct = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const product = await Product.findByIdAndDelete(id);
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: error,
+    });
+  }
+};
