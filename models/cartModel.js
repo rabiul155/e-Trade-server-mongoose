@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 const { productSchema } = require('./productModel');
 
 const cartSchema = new mongoose.Schema(
@@ -7,7 +8,15 @@ const cartSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    quantity: Number,
+    email: {
+      type: String,
+      required: [true, 'A user must have an email'],
+      validate: [validator.isEmail, 'Please provide a valid email'],
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+    },
     product: productSchema,
   },
   {

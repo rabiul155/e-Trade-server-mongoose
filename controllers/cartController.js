@@ -2,8 +2,9 @@ const Cart = require('../models/cartModel');
 
 exports.getCarts = async (req, res, next) => {
   try {
-    // const email = req.query.email;
-    const carts = await Cart.find();
+    const email = req.query.email;
+
+    const carts = await Cart.find({ email });
     res.status(200).json({
       status: 'success',
       results: carts.length,
@@ -21,7 +22,7 @@ exports.getCarts = async (req, res, next) => {
 
 exports.createCart = async (req, res, next) => {
   try {
-    const cart = await Cart.create(req.body);
+    const cart = await Cart.create({ ...req.body, quantity: 1 });
     res.status(201).json({
       status: 'success',
       data: {
@@ -39,11 +40,12 @@ exports.createCart = async (req, res, next) => {
 exports.deleteCart = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const cart = await Cart.findByIdAndDelete(id);
+    const carts = await Cart.findByIdAndDelete(id);
     res.status(200).json({
       status: 'success',
+      results: carts.length,
       data: {
-        cart,
+        carts,
       },
     });
   } catch (error) {

@@ -2,14 +2,12 @@ const { Product } = require('../models/productModel');
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const product = await Product.find();
-
-    // res.send('hello form server');
+    const products = await Product.find();
     res.status(200).json({
       status: 'success',
-      results: product.length,
+      results: products.length,
       data: {
-        product,
+        products,
       },
     });
   } catch (err) {
