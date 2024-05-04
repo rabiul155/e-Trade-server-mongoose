@@ -18,17 +18,21 @@ const userSchema = new mongoose.Schema({
   district: String,
   password: {
     type: String,
+    select: false,
     required: [true, 'Please provide a password'],
     minlength: 8,
-    select: false,
   },
 });
 
 userSchema.pre('save', async function (next) {
-  if (this.isModified('password')) return next();
+  if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
+
+userSchema.methods.verifyPassword = async function (userPassword, dbPassword) {
+  return await bcrypt.compare(userPassword, dbPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 
