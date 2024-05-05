@@ -32,8 +32,7 @@ const productSchema = new mongoose.Schema(
     img: {
       type: String,
     },
-    shipping: Number,
-    quantity: Number,
+    details: String,
   },
   { timestamps: true },
 );

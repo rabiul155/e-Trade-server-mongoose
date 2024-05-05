@@ -37,6 +37,23 @@ exports.getSingleProduct = async (req, res, next) => {
   }
 };
 
+exports.createProduct = async (req, res, next) => {
+  try {
+    const product = await Product.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        product,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: error,
+    });
+  }
+};
+
 exports.deleteProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
