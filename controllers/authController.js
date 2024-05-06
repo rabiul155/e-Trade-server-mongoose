@@ -54,7 +54,9 @@ exports.verifyToken = (req, res, next) => {
   const token = header.split(' ')[1];
   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
     if (err) {
-      return res.status(401).send({ message: 'token_not_valid' });
+      return res
+        .status(401)
+        .send({ message: 'token_not_valid_or_token_expired' });
     }
     req.decoded = decoded;
     next();
