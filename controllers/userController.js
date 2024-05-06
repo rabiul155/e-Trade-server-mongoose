@@ -3,7 +3,6 @@ const User = require('../models/userModel');
 exports.getUserInfo = async (req, res, next) => {
   try {
     const email = req.decoded.email;
-    console.log(email);
     const user = await User.findOne({ email: email });
     res.status(200).send({
       status: 'success',

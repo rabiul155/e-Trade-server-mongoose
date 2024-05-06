@@ -66,10 +66,8 @@ exports.verifyToken = (req, res, next) => {
 exports.registerUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    console.log(user);
     const accessToken = createToken(user.email, '12h');
     const refreshToken = createToken(user.email, '90d');
-    console.log(token);
     res.status(201).json({
       status: 'success',
       accessToken,
